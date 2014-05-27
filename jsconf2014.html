@@ -247,31 +247,15 @@ hello('Node.js', function (error, result) { ... });
           <h2>Bind to code</h2>
           <p><small>Compile source code on the fly</small></p>
             <pre><code>
-var hello = edge.func(
-    'async (input) => { return "C# welcomes " + input.ToString(); }'
-);
-            </code></pre>      
-            <a href="https://github.com/tjanczuk/edge#how-to-integrate-c-code-into-nodejs-code"><small>how to integrate CLR code</small></a>
-        </section>
+var f1 = edge.func('async (i) => { return ((string)i).ToUpper(); }');
 
-        <section>
-          <h2>Bind to multiline code</h2>
-          <p><small>Embed multi-line source code inline</small></p>
-            <pre><code>
-var hello = edge.func(function () {/*
-    async (input) => { 
-        return "C# welcomes " + input.ToString(); 
+var f2 = edge.func(function () {/*
+    async (i) => { 
+        return ((string)i).ToUpper(); 
     }
 */});
-            </code></pre>      
-            <a href="https://github.com/tjanczuk/edge#how-to-integrate-c-code-into-nodejs-code"><small>how to integrate CLR code</small></a>
-        </section>
 
-        <section>
-          <h2>Bind to source file</h2>
-          <p><small>Compile source code from a file</small></p>
-            <pre><code>
-var hello = edge.func('mysample.cs');
+var f3 = edge.func('mysample.cs');
             </code></pre>      
             <a href="https://github.com/tjanczuk/edge#how-to-integrate-c-code-into-nodejs-code"><small>how to integrate CLR code</small></a>
         </section>
@@ -357,6 +341,45 @@ getData(null, function (error, result) { ... });
         </section>    
 
         <section>
+          <h2>Return C# function to Node.js</h2>
+          <p><small>C# function is also data</small></p>
+          <pre><code class="javascript">
+var createHello = require('edge').func(function () {/*
+    async (input) => {
+        return (Func&lt;object,Task&lt;object&gt;&gt;)(async (i) => { 
+            return ".NET welcomes " + i.ToString();
+        });
+    }
+*/});
+
+createHello(null, function (error, hello) {
+    hello('Node.js', console.log); // prints out ".NET welcomes Node.js"
+}); 
+          </code></pre>         
+          <a href="https://github.com/tjanczuk/edge/blob/master/samples/110_clr_instance.js"><small>see full example</small></a>
+        </section>              
+
+        <section>
+          <h2>Manage C# state from Node.js</h2>
+          <p><small>Call Node.js proxy to C# closure over CLR data</small></p>
+          <pre><code class="javascript">
+var createCounter = require('edge').func(function () {/*
+    async (input) => {
+        var k = (int)input; // CLR state 
+        return (Func&lt;object,Task&lt;object&gt;&gt;)
+          (async (i) => { return ++k; });
+    }
+*/});
+
+// create counter with initial state of 12
+var counter = createCounter(12, true); 
+console.log(counter(null, true)); // prints 13
+console.log(counter(null, true)); // prints 14
+          </code></pre>         
+          <a href="https://github.com/tjanczuk/edge/blob/master/samples/110_clr_instance.js"><small>see full example</small></a>
+        </section>
+
+        <section>
           <h2>Export Node.js function to C#</h2>
           <p><small>Node.js function is also data</small></p>
           <pre><code>
@@ -391,45 +414,6 @@ var addAndMultiplyBy2 = require('edge').func(function () {/*
           </code></pre>         
           <a href="https://github.com/tjanczuk/edge/blob/master/samples/108_func.js"><small>see full code</small></a>
         </section>              
-
-        <section>
-          <h2>Return C# function to Node.js</h2>
-          <p><small>C# function is also data</small></p>
-          <pre><code class="javascript">
-var createHello = require('edge').func(function () {/*
-    async (input) => {
-        return (Func&lt;object,Task&lt;object&gt;&gt;)(async (i) => { 
-            Console.WriteLine("Hello from .NET"); 
-            return null; 
-        });
-    }
-*/});
-
-var hello = createHello(null, true); 
-hello(null, true); // prints out "Hello from .NET"
-          </code></pre>         
-          <a href="https://github.com/tjanczuk/edge/blob/master/samples/110_clr_instance.js"><small>see full example</small></a>
-        </section>              
-
-        <section>
-          <h2>Manage C# state from Node.js</h2>
-          <p><small>Call Node.js proxy to C# closure over CLR data</small></p>
-          <pre><code class="javascript">
-var createCounter = require('edge').func(function () {/*
-    async (input) => {
-        var k = (int)input; // CLR state 
-        return (Func&lt;object,Task&lt;object&gt;&gt;)
-          (async (i) => { return ++k; });
-    }
-*/});
-
-// create counter with initial state of 12
-var counter = createCounter(12, true); 
-console.log(counter(null, true)); // prints 13
-console.log(counter(null, true)); // prints 14
-          </code></pre>         
-          <a href="https://github.com/tjanczuk/edge/blob/master/samples/110_clr_instance.js"><small>see full example</small></a>
-        </section>
 
         <section>
           <h2>Multi-threading in Node.js process</h2>
@@ -607,28 +591,20 @@ Node.js v0.10.28 welcomes .NET
 
 
         <section>
-            <h2>Edge.js connects</h2>
+            <h2><span style="color:red">Edge.js</span> connects</h2>
             <p><small>Node.js and .NET</small></p>
             <p><small>cool with awesome</small></p>
             <p><small>on Windows, MacOS, and Linux</small></p>
             <h2>in one process</h2>
-        </section>        
-
-        <section>
-          <h1>Edge.js</h1>
           <p>
             <small><a href="http://tjanczuk.github.io/about">Tomasz Janczuk</a> / <a href="http://twitter.com/tjanczuk">@tjanczuk</a></small>
           </p>          
           <p>
             <small><a href="https://github.com/tjanczuk/edge">github.com/tjanczuk/edge</a></small>
           </p>
+          <h2>What will <span style="color:red">you</span> build?</h2>
 
-          <p>
-            <small>Collaboration welcome</small>
-          </p>     
-
-          <h2>What will you build?</h2>
-        </section>
+        </section>        
 
       </div>
 
