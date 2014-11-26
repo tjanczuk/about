@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Sandbox</title>
+    <title>Auth0 Sandbox</title>
 
-    <meta name="description" content="Sandboxing Node.js code">
+    <meta name="description" content="Auth0 Sandbox">
     <meta name="author" content="Tomasz Janczuk">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,42 +32,49 @@
 
   <body>
 
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=479349292107454";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>    
+
     <div class="reveal">
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
 
-        <section>
-          <h2><span style="color: red">people</span> are not evil</h2>
-          <h2>but some write <span style="color: red">evil code</span></h2>
-          <img style="border: 0;" src="https://cloud.githubusercontent.com/assets/822369/4854722/0be8ac8a-6098-11e4-9e12-dff380dcb139.png">
-          <h1>Auth0 <span style="color: red">sandbox</span></h1>
+        <section> 
+          <h1 style="text-shadow: none;">Auth&Oslash; <span style="color: #EB5424">sandbox</span></h1>
+          <a href="https://auth0.com"><img style="border: 0; background: transparent; box-shadow: 0 0 0;" src="images/auth0.png"></a>
+          <p>
+            <a href="http://tjanczuk.github.io/about" style="color: #44C7F4">Tomasz Janczuk</a> / <a href="http://twitter.com/tjanczuk" style="color: #44C7F4">@tjanczuk</a>
+          </p>  
         </section>
 
         <section>
-          <h2>running <span style="color: red">custom code</span></h2>
+          <h2><span style="color: #EB5424">people</span> are not evil</h2>
+          <h2>but some write <span style="color: #EB5424">evil code</span></h2>
+          <img style="border: 0;" src="images/people.png">
+        </section>
+
+        <section>
+          <h2>running <span style="color: #EB5424">custom code</span></h2>
           <h2>in multi-tenant systems</h2>
-          <img style="border: 0;" src="https://cloud.githubusercontent.com/assets/822369/4855963/dedfcba2-60af-11e4-8561-36f828f9a7f4.png">
-          <h2>requires a <span style="color: red">sandbox</span></h2>
+          <img style="border: 0;" src="images/custom_code.png">
+          <h2>requires a <span style="color: #EB5424">sandbox</span></h2>
         </section>
 
         <section>
-          <h2><span style="color: red">sandbox provides</span></h2>
-          <h2>data isolation</h2>
-          <h2>memory</h2>
-          <h2>network</h2>
-          <h2>and cpu usage</h2>
-          <h2><span style="color: red">guarantees</span></h2>
-        </section>
-
-        <section>
-          <h2>sandbox <span style="color: red">model</span></h2>
-          <img style="border: 0;" src="https://cloud.githubusercontent.com/assets/822369/4856076/8b0d7ddc-60b2-11e4-90f2-d5bf01eca060.png">
+          <h2>sandbox <span style="color: #EB5424">model</span></h2>
+          <img style="border: 0;" src="images/sandbox_model.png">
         </section>
 
         <section>
           <h2>programming 101</h2>
-          <h3><span style="color: red">JavaScript function closure</span></h3>
+          <h3><span style="color: #EB5424">JavaScript function closure</span></h3>
           <pre><code>
 return function (cb) {
   cb(null, { hello: 'world' });
@@ -77,8 +84,44 @@ return function (cb) {
         </section>
 
         <section>
+          <h2><span style="color: #EB5424">sandbox provides</span></h2>
+          <h2>data isolation</h2>
+          <h2>memory</h2>
+          <h2>network</h2>
+          <h2>and cpu usage</h2>
+          <h2><span style="color: #EB5424">guarantees</span></h2>
+        </section>
+
+        <section>
+          <h2><span style="color: #EB5424">sandbox</span> viewed from space</span></h2>
+          <img style="border: 0;" src="images/docker.png">
+          <h3>CoreOS, ETCD, Docker, and Fleet</h3>
+        </section>
+
+        <section>
+          <h2><span style="color: #EB5424">data</span> isolation</h2>
+          <img style="border: 0;" src="images/sandbox_vm.png">
+          <h3>container per tenant <span style="color: #EB5424">with</span>
+          egress firewall</h3>
+        </section>
+
+        <section>
+          <h2><span style="color: #EB5424">memory, cpu</span> and other limits</h2>
+          <h2>&nbsp;</h2>
+          <h2>linux <span style="color: #EB5424">cgroups</span></h2>
+          <h2><span style="color: #EB5424">transient</span> users</h2>
+          <h2><span style="color: #EB5424">pam</span> limits</h2>
+        </section>
+
+        <section>
+          <h2>taking <span style="color: #EB5424">sandbox</span> for a spin</span></h2>
+          <img style="border: 0;" src="images/raclawice.png">
+          <p><small><a href="http://en.wikipedia.org/wiki/Rac%C5%82awice_Panorama" style="color: #44C7F4">[The Racławice Panorama]</a></small></p>
+        </section>
+
+        <section>
           <h2>programming 102</h2>
-          <h3><span style="color: red">parameterized function</span></h3>
+          <h3><span style="color: #EB5424">parameterized function</span></h3>
           <pre><code class="javascript">
 // HTTPS POST /tenant1?myname=Auth0
 
@@ -91,7 +134,7 @@ return function (context, cb) {
 
         <section>
           <h2>programming 201</h2>
-          <h3><span style="color: red">C#</span> via <span style="color: red">Edge.js</span></h3>
+          <h3><span style="color: #EB5424">C#</span> via <span style="color: #EB5424">Edge.js</span></h3>
           <pre><code class="javascript">
 // HTTPS POST /tenant1?myname=Auth0
 
@@ -102,7 +145,31 @@ return function (context, cb) {
         }
     */})(context, cb);
 }
+</code></pre>
+          <p><small><a href="http://tjanczuk.github.io/edge">[More on Edge.js]</a></small></p>
+        </section>
+
+
+        <section>
+          <h2>streaming <span style="color: #EB5424">real-time</span> logs</h2>
+          <pre><code class="javascript">curl https://mysandbox.com/t1 
+  --data-binary 'return function(cb) { console.log("Hello, world!"); cb(); }'</code></pre>          
+<!--           <img style="border: 0;" src="https://cloud.githubusercontent.com/assets/822369/4968790/51e8fb3a-684b-11e4-815e-2913ccff5b58.png">
+ -->          <h2><span style="color: #EB5424">bunyan</span> to <span style="color: #EB5424">kafka</span> to <span style="color: #EB5424">http</span></h2>
+           <pre><code class="javascript">curl https://mysandbox.com/logs/tenant/t1 | bunyan
+
+[2014-11-25T03:20:44.027Z]  INFO: server-foreman-t1-7574/1 on ip-172-31-0-65: Hello world (sandbox=1, offset=252217)
+...
 </code></pre>     
+        </section>
+
+        <section>
+          <h1 style="text-shadow: none;">Auth&Oslash; <span style="color: #EB5424">sandbox</span></h1>
+          <a href="https://auth0.com"><img style="border: 0; background: transparent; box-shadow: 0 0 0;" src="images/auth0.png"></a>
+          <p>
+            <a href="http://tjanczuk.github.io/about" style="color: #44C7F4">Tomasz Janczuk</a> / <a href="http://twitter.com/tjanczuk" style="color: #44C7F4">@tjanczuk</a>
+          </p>  
+
         </section>
 
       </div>
@@ -121,6 +188,7 @@ return function (context, cb) {
         progress: true,
         history: true,
         center: true,
+        rollingLinks: false,
 
         theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
         transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
@@ -140,22 +208,21 @@ return function (context, cb) {
 
     </script>
 
-<!-- <a href="https://github.com/tjanczuk/edge"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>    
+<!-- <a href="https://auth0.com"><img style="position: absolute; top: 10px; right: 10px; border: 0; width: 50px; heigth: 50px;" src="images/auth0.png" alt="Auth0"></a>        
  -->
 <!-- <iframe allowtransparency="true" frameborder="0" scrolling="no"
-        src="https://platform.twitter.com/widgets/tweet_button.html?url=http://tjanczuk.github.io/edge&via=tjanczuk&text=Run Node.js and .NET in-process on Windows, Mac, and Linux with Edge.js&count=horizontal&hashtags=edgejs,nodejs,dotnet,mono"
+        src="https://platform.twitter.com/widgets/tweet_button.html?url=http://tjanczuk.github.io/about/sandbox.html&via=tjanczuk&text=Sandboxing Node.js code with @Auth0 sandbox&count=horizontal&hashtags=nodejs,sandbox"
         style="width:130px; height:20px; position: absolute; top: 20px; left: 20px; border: 0;"></iframe>
- -->
-<!-- Place this tag where you want the +1 button to render. -->
-<!-- <div style="width:130px; height:20px; position: absolute; top: 50px; left: 20px; border: 0;">
-  <div class="g-plusone" data-size="medium" data-annotation="inline" data-width="130" data-href="http://tjanczuk.github.io/edge"></div>
+
+<div style="width:130px; height:20px; position: absolute; top: 50px; left: 20px; border: 0;">
+  <div class="g-plusone" data-size="medium" data-annotation="inline" data-width="130" data-href="http://tjanczuk.github.io/about/sandbox.html"></div>
 </div>
- -->
-<!-- <div style="width:130px; height:20px; position: absolute; top: 80px; left: 20px; border: 0;">
-  <div class="fb-share-button" data-href="http://tjanczuk.github.io/edge" data-width="130" data-type="button_count"></div>
+
+<div style="width:130px; height:20px; position: absolute; top: 80px; left: 20px; border: 0;">
+  <div class="fb-share-button" data-href="http://tjanczuk.github.io/about/sandbox.html" data-width="130" data-type="button_count"></div>
 </div>
- -->
-<!-- <div style="width:130px; height:20px; position: absolute; top: 130px; left: 20px; border: 0;">
+
+<div style="width:130px; height:20px; position: absolute; top: 130px; left: 20px; border: 0;">
   <a href="https://twitter.com/tjanczuk" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @tjanczuk</a>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
 </div>
@@ -166,20 +233,16 @@ return function (context, cb) {
     po.src = 'https://apis.google.com/js/platform.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
-</script>     
-<script type="text/javascript">
+</script>-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-29444039-2']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+  ga('create', 'UA-29444039-5', 'auto');
+  ga('send', 'pageview');
 
 </script>
--->
   </body>
 </html>
