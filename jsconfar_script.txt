@@ -1,0 +1,56 @@
+# Auth0 Sandbox
+
+## Welcome
+
+Hi, my name is Tomasz Janczuk, I work at Auth0. In this session I will be talking about a system we have built for sandboxing Node.js code. 
+
+## People are not evil
+
+Many multi-tenant systems enable extensibility by allowing custom code to be run on users' behalf. Since you have limited control over this custom code, you must assume it is not always well behaved.
+
+## Running custom code
+
+In Auth0 we offer identity as a service. We allow our subscribers to extend the authentication and authorization pipeline by executing custom code as part of the authentication transaction. Since we don't have strict control of what people can do in that code, we needed a sandbox technology to execute it securely.
+
+## Sandbox model
+
+All the custom code we execute at Auth0 runs in the context of an HTTP request. Because of this the sandbox model we chose is also based on HTTP. You are issuing an HTTP POST request with the request body contaning the code to execute. You also indicate the tenant on behalf of which this code will run. The sandbox executes the code and sends back a JSON response with the results. 
+
+## Programming 101
+
+The programming model of the sandbox is quite simple. You are writing Node.js code that returns a function closure to execute. The sandbox invokes that function and provides a single callback parameter. When your code is done executing, you must call the callback providing an error or a single result value. That value is then serialized as JSON and returned to the caller in the HTTP response. 
+
+## Sandbox provides
+
+There are many assurances a sandbox should provide around code execution. First and foremost is data isolation. This means code of one tenant should be prevented from accessing code or data of another tenant. Second to that is ensuring fair resource consumption and preventig authenticated DOS attacks. You want to limit the amount of memory and CPU any one tenant can use and put constraints on other resources to prevent a variety of DOS attacks. 
+
+## Sandbox viewed from space
+
+We have looked around but did not find a sandboxing solution that would meet our needs, so we decided to build it ourselves. At the high level, the Auth0 sandbox is built on top of CoreOS, Docker, etcd, and fleet. These technologies provide a great foundation for building scalable and distributed container based applications. However, by themselves they are not sufficient to provide the kind of guarantees a sandbox requries. Because of this we had to use additional mechanisms on top of CoreOS. 
+
+## Data isolation
+
+To isolate code and data of one tenant from another, we are running every tenant's code in their own Docker container. When an HTTP request arrives at the sandbox, it is first processed by a proxy. The proxy will look at etcd to determine if a Docker container for a particular tenant is already running. If it is, it will forward the reqeust to that sandbox cntainer. It it is not, it will provision a new container for that tenant and register it in etcd. Any sandbox container is just a simple HTTP server that allows multiple requests to be processed on a tenant's behalf. The proxy and the controller together manage the lifetime of sandbox containers. 
+
+In addition to running every tenant's code in its own container, we are also configuring egress firewall rules in the sandbox VMs. These rules prevent untrusted code in one sandbox container from communicating with other tenants' containers or sandbox infrastructure. They can however talk to the public internet. 
+
+## Memory, CPU, and other limits
+
+To limit memory and CPU consumption we are using the cgroups mechanism exposed by Docker. In addition, every sandbox container creates a transient Linux user and configures PAM limits for that user. These two mechanisms together help prevent a rangle of attacks on memory and CPU, for example fork bombs. 
+
+## Taking sandbox for a spin
+
+So let's have a look at the sandbox in action, see how it works. 
+
+## Programming 102
+
+We have already talked about this more advanced programming model in which URL query parameters are passed as part of the context into the executing code. 
+
+## Programming 201
+
+In addition to running Node.js code, our sandbox can also execute CLR code, in particular C#. This is made possible through Edge.js, a module that enables running Node.js and C# in-process. This in itself is a broad topic we don't have time to dive in deeply here. 
+
+## Streaming real-time logs
+
+The last aspect of the sandbox I want to talk about is logging, which is an important diagnostics mechanism. Auth0 sandbox allows all sandbox components as well as custom code running in the sandbox to contribute to logs. We use bunyan for structured, JSON based logging. All logs are stored in kafka which is deployed across the CoreOS cluster implementing the sandbox. From there, logs are exposed over HTTP and can be steamed to the developer console using something as simple as curl. Let me show you.
+
