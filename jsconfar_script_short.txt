@@ -14,7 +14,7 @@ In Auth0 we offer identity as a service. We allow our subscribers to extend
 
 ## Sandbox model
 
-All the custom code we execute at Auth0 runs in the context of an HTTP request. Because of this the sandbox model we chose is also based on HTTP
+All the custom code we execute at Auth0 runs in the context of an HTTP request
 
 ## Programming 101
 
@@ -30,9 +30,9 @@ We have looked around but did not find a sandboxing solution that would meet our
 
 ## Data isolation
 
-To isolate code and data of one tenant from another, we are running every tenant's code in their own Docker container. When an HTTP request arrives at the sandbox
+To isolate code and data of one tenant from another, we are running every tenant's code 
 
-In addition to running every tenant's code in its own container, we are also configuring egress firewall 
+In addition to running every tenant's code in its own container, we are also configuring 
 
 ## Memory, CPU, and other limits
 
@@ -44,7 +44,7 @@ So let's have a look at the sandbox in action, see how it works.
 
 ## Programming 102
 
-We have already talked about this more advanced programming model in which URL query parameters are passed as part of the context into the executing code. 
+We have already talked about this more advanced programming model 
 
 ## Programming 201
 
