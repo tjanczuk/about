@@ -1,0 +1,56 @@
+# Auth0 Sandbox - Redux
+
+## Welcome
+
+Hi, my name is Tomasz Janczuk, I work at Auth0. In this session I will be talking about a system we have built for sandboxing Node.js code. 
+
+## People are not evil
+
+Many multi-tenant systems enable extensibility by allowing custom code to be run on users' behalf
+
+## Running custom code
+
+In Auth0 we offer identity as a service. We allow our subscribers to extend 
+
+## Sandbox model
+
+All the custom code we execute at Auth0 runs in the context of an HTTP request. Because of this the sandbox model we chose is also based on HTTP
+
+## Programming 101
+
+The programming model of the sandbox is quite simple. You are writing Node.js code that returns a function closure to execute
+
+## Sandbox provides
+
+There are many assurances a sandbox should provide around code execution
+
+## Sandbox viewed from space
+
+We have looked around but did not find a sandboxing solution that would meet our needs, so we decided to build it ourselves. At the high level, the Auth0 sandbox is built on top 
+
+## Data isolation
+
+To isolate code and data of one tenant from another, we are running every tenant's code in their own Docker container. When an HTTP request arrives at the sandbox
+
+In addition to running every tenant's code in its own container, we are also configuring egress firewall 
+
+## Memory, CPU, and other limits
+
+To limit memory and CPU consumption we are using the cgroups mechanism exposed by Docker. In addition, every sandbox container creates a transient Linux user and configures PAM
+
+## Taking sandbox for a spin
+
+So let's have a look at the sandbox in action, see how it works. 
+
+## Programming 102
+
+We have already talked about this more advanced programming model in which URL query parameters are passed as part of the context into the executing code. 
+
+## Programming 201
+
+In addition to running Node.js code, our sandbox can also execute CLR code
+
+## Streaming real-time logs
+
+The last aspect of the sandbox I want to talk about is logging
+
