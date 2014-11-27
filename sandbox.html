@@ -152,11 +152,11 @@ return function (context, cb) {
 
         <section>
           <h2>streaming <span style="color: #EB5424">real-time</span> logs</h2>
-          <pre><code class="javascript">curl https://mysandbox.com/t1 
+          <pre><code class="javascript">curl https://mysndbx.com/t1 
   --data-binary 'return function(cb) { console.log("Hello, world!"); cb(); }'</code></pre>          
 <!--           <img style="border: 0;" src="https://cloud.githubusercontent.com/assets/822369/4968790/51e8fb3a-684b-11e4-815e-2913ccff5b58.png">
  -->          <h2><span style="color: #EB5424">bunyan</span> to <span style="color: #EB5424">kafka</span> to <span style="color: #EB5424">http</span></h2>
-           <pre><code class="javascript">curl https://mysandbox.com/logs/tenant/t1 | bunyan
+           <pre><code class="javascript">curl https://mysndbx.com/logs/tenant/t1 | bunyan
 
 [2014-11-25T03:20:44.027Z]  INFO: server-foreman-t1-7574/1 on ip-172-31-0-65: Hello world (sandbox=1, offset=252217)
 ...
